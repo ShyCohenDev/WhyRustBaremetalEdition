@@ -20,7 +20,8 @@ There are multiple reasons why switching everything to Rust would benefit us.
 
 ## PHASE 1 - START HERE
 
-1. Create the file tree. differ resources and notes from the actual product.
-2. Create the main page, single opening sentence.
+Create the main page, single opening sentance. \
+differ resources and notes from the actual product. \
+gitignore the mdbook build output (`book/book/`).
 
 ## PHASE 1 - END HERE

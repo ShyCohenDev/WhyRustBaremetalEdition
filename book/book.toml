@@ -1,0 +1,4 @@
+[book]
+title = "Why Rust? Bare-Metal Edition"
+language = "en"
+src = "src"
