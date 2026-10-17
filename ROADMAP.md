@@ -25,3 +25,36 @@ differ resources and notes from the actual product. \
 gitignore the mdbook build output (`book/book/`).
 
 ## PHASE 1 - END HERE
+
+## PHASE 2 - START HERE
+
+Create the motivation page. basically what is stated under the motivation title in this file. \
+Plan the technical part of the research in `research/resources/technical-topics.md`. \
+Technical depth is a practical guide: explain the concept, show a small realistic example, move on. \
+Assume the reader might only vaguely know Rust, so open with a short Rust primer for C developers. \
+Every topic is written as concept first, then C/C++, then Rust. \
+Cover mandatory topics C-only bare-metal guides usually skip (toolchain, debugging, testing, FFI, ecosystem and safety standards), and topics unique to Rust (peripheral ownership, typestate, `unsafe`, RTIC/Embassy, panics).
+
+## PHASE 2 - END HERE
+
+## PHASE 3 - START HERE
+
+Write the technical part under `book/src/technical/`, limited to the 3 most important concepts for comparing C and Rust on bare-metal:
+1. Hardware access and peripheral ownership.
+2. Interrupts and shared state (including DMA).
+3. Memory safety, errors and `unsafe`.
+
+No general Rust tutorial (link to the official Rust docs instead) and no "how to read this book" page. \
+The reader is technical but may only vaguely know Rust and bare-metal: explain each concept where it is first needed, accessibly, without over-abstracting or simplifying into something untrue. \
+The goal is understanding the difference between C and Rust, so every chapter ends with a "C vs Rust at a glance" table. \
+All examples use one reference board: ST Nucleo-F401RE.
+
+## PHASE 3 - END HERE
+
+## PHASE 4 - START HERE
+
+Write the "Should We Switch?" chapter (`book/src/decision.md`), as requested in note 3: the reasons for and against switching, based on the 3 technical chapters. \
+Short and simple read. \
+Anything that needs company data or measurements (our chips, certification needs, team, porting a real module and measuring it, the final recommendation) is marked TBD.
+
+## PHASE 4 - END HERE
