@@ -1,0 +1,566 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Why Rust? Bare-Metal Edition</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-0a8e8e96.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-ea7ee921.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Why Rust? Bare-Metal Edition</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="why-rust-bare-metal-edition"><a class="header" href="#why-rust-bare-metal-edition">Why Rust? Bare-Metal Edition</a></h1>
+<p>This research examines whether Rust can replace C/C++ as our language for bare-metal programming, and what we would gain and lose by making the switch.</p>
+<img src="images/rewrite-it-in-rust.png" alt="Rewrite it in Rust" style="max-height: 60vh;">
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="motivation"><a class="header" href="#motivation">Motivation</a></h1>
+<p>At our company, we generally use C/C++ for bare-metal programming and Rust for software that runs on a full operating system. There are several reasons why moving everything to Rust could benefit us:</p>
+<ol>
+<li><strong>The general “Why Rust?”</strong>: memory safety, modern syntax, pattern matching, a growing community, and more.</li>
+<li><strong>A single language</strong>: when there is one language instead of two, there is less for the average developer to learn and keep up with.</li>
+<li><strong>No more duplicated code</strong>: logic shared between our Rust and C codebases is currently written twice, because the options for calling between Rust and C (FFI, the foreign function interface) are not good enough. These FFI options are examined later in this research.</li>
+<li><strong>Something better than C</strong>: switching gives us a chance to move to something better than the C we currently use.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="hardware-access-and-peripheral-ownership"><a class="header" href="#hardware-access-and-peripheral-ownership">Hardware Access and Peripheral Ownership</a></h1>
+<h2 id="bare-metal-in-short"><a class="header" href="#bare-metal-in-short">Bare-metal in short</a></h2>
+<p>A <strong>bare-metal</strong> program runs directly on a microcontroller, with no operating system. It starts at power-on and never exits. The chip has a CPU, <strong>flash</strong> (the program), <strong>RAM</strong> (variables), and <strong>peripherals</strong>: hardware blocks for pins (GPIO), serial buses (UART, SPI, I2C), timers, and so on.</p>
+<p>You control a peripheral through its <strong>registers</strong>: 32-bit locations at fixed addresses. Writing to address <code>0x4002_0018</code> does not store anything in RAM; it changes the voltage on a pin. Register accesses must be <strong>volatile</strong>, which tells the compiler to perform every read and write exactly as written, because the hardware reacts to them.</p>
+<p>Examples use the <strong>ST Nucleo-F401RE</strong> board (STM32F401, ARM Cortex-M4). Its LED is on pin <code>PA5</code>.</p>
+<h2 id="registers"><a class="header" href="#registers">Registers</a></h2>
+<p>Each register is split into <strong>bit fields</strong>. For example, <code>GPIOA_MODER</code> has 2 bits per pin: <code>00</code> = input, <code>01</code> = output, <code>10</code> = alternate function, <code>11</code> = analog.</p>
+<h3 id="where-register-descriptions-come-from"><a class="header" href="#where-register-descriptions-come-from">Where register descriptions come from</a></h3>
+<p>The <strong>vendor</strong> is the company that makes the chip: ST (STM32), Nordic (nRF), NXP, Microchip, Raspberry Pi (RP2040), Espressif (ESP32) and so on. Each publishes a reference manual describing every register.</p>
+<p><strong>CMSIS</strong> (Common Microcontroller Software Interface Standard) is Arm’s standard for Cortex-M software. Arm writes the parts common to every Cortex-M core (e.g. <code>core_cm4.h</code>); each vendor writes the parts for its own chips. Two of these parts matter here:</p>
+<ul>
+<li><strong>Device headers</strong> (e.g. <code>stm32f401xe.h</code>): C structs and macros for every register. This is what C firmware uses.</li>
+<li><strong>SVD files</strong> (System View Description, e.g. <code>STM32F401.svd</code>): the same information as machine-readable XML: every peripheral, register, field, and the meaning of each value. Debuggers use it to show registers by name; Rust tools use it to generate code. Espressif also publishes SVD files for its RISC-V and Xtensa chips, so the format is not limited to Arm.</li>
+</ul>
+<p>Both ship in the vendor’s <strong>CMSIS-Pack</strong> (Device Family Pack), downloadable from <a href="https://www.keil.arm.com/packs/">Arm’s pack index</a>, and usually also on the vendor’s site or GitHub (e.g. inside ST’s STM32CubeF4). The Arm-written parts are open source at <a href="https://github.com/ARM-software/CMSIS_6">ARM-software/CMSIS_6</a>.</p>
+<h3 id="in-c"><a class="header" href="#in-c">In C</a></h3>
+<p>The CMSIS device header gives each register a name and each bit a macro:</p>
+<pre><code class="language-c">RCC-&gt;AHB1ENR |= RCC_AHB1ENR_GPIOAEN;                       // turn on port A's clock
+GPIOA-&gt;MODER = (GPIOA-&gt;MODER &amp; ~GPIO_MODER_MODER5)
+             | GPIO_MODER_MODER5_0;                        // PA5 = output (01)
+</code></pre>
+<p>The macros are plain integers, so the compiler accepts mistakes like these:</p>
+<pre><code class="language-c">GPIOA-&gt;ODR = RCC_AHB1ENR_GPIOAEN;    // a mask that belongs to a different register
+GPIOA-&gt;MODER |= 3u &lt;&lt; 10;            // meant output (01), wrote analog (11)
+</code></pre>
+<h3 id="in-rust"><a class="header" href="#in-rust">In Rust</a></h3>
+<p>There are several ways to reach a register. The first two are part of the language; the rest are ordinary crates (libraries).</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>What it is</th><th>Part of Rust?</th></tr>
+</thead>
+<tbody>
+<tr><td>Raw volatile access</td><td><code>read_volatile</code> / <code>write_volatile</code> on an address, like a C <code>volatile</code> pointer. <code>unsafe</code>.</td><td>Yes (<code>core::ptr</code>)</td></tr>
+<tr><td>Inline assembly</td><td><code>asm!</code>, for CPU registers and instructions that are not memory-mapped (e.g. disabling interrupts). <code>unsafe</code>.</td><td>Yes (<code>core::arch</code>)</td></tr>
+<tr><td><strong>PAC</strong></td><td>A typed register library for one chip, generated from its SVD file.</td><td>No</td></tr>
+<tr><td><strong>HAL crate</strong></td><td>Drivers (GPIO, UART, …) for one chip family, built on its PAC.</td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="raw-volatile-access"><a class="header" href="#raw-volatile-access">Raw volatile access</a></h4>
+<p>The address and masks are plain integers, so this looks like C and allows the same mistakes:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const GPIOA_MODER: *mut u32 = 0x4002_0000 as *mut u32;
+unsafe {
+    let v = GPIOA_MODER.read_volatile();
+    GPIOA_MODER.write_volatile((v &amp; !(0b11 &lt;&lt; 10)) | (0b01 &lt;&lt; 10));   // PA5 = output (01)
+}
+<span class="boring">}</span></code></pre>
+<h4 id="inline-assembly"><a class="header" href="#inline-assembly">Inline assembly</a></h4>
+<p>Rarely written by hand: the <code>cortex-m</code> and <code>riscv</code> crates wrap the common cases (e.g. <code>cortex_m::interrupt::disable()</code> emits <code>cpsid i</code>).</p>
+<h4 id="pac-peripheral-access-crate"><a class="header" href="#pac-peripheral-access-crate">PAC (Peripheral Access Crate)</a></h4>
+<p>A PAC is the Rust counterpart of the CMSIS device header: one crate per chip, with a definition for every peripheral, register and field. The difference is that registers, fields and values are <strong>types and methods</strong> instead of integers, so the compiler can tell them apart. Nobody writes these by hand; they are generated from the vendor’s SVD file.</p>
+<p>With the <code>stm32f4</code> PAC, the C example becomes:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>dp.RCC.ahb1enr().modify(|_, w| w.gpioaen().enabled());   // turn on port A's clock
+dp.GPIOA.moder().modify(|_, w| w.moder5().output());     // PA5 = output
+<span class="boring">}</span></code></pre>
+<p><code>modify</code> does a volatile read-modify-write; inside it you name only the fields you change. Every field is a method that exists only on its own register, and values have names (<code>output()</code>) instead of bit patterns. The first C mistake is a compile error (no <code>gpioaen</code> field on <code>ODR</code>), and the second would require writing <code>analog()</code> explicitly. Raw bits can still be written through <code>unsafe { w.bits(..) }</code>. The generated code is the same load, mask and store as the C version.</p>
+<p>How a PAC is made:</p>
+<ol>
+<li>Take the vendor’s SVD file.</li>
+<li>Fix its errors, which are common (e.g. stm32-rs applies YAML patches with <code>svdtools</code>).</li>
+<li>Run <strong>svd2rust</strong>, which turns the SVD file into Rust source.</li>
+<li>Publish the result on crates.io (<code>stm32f4</code>, <code>nrf52840-pac</code>, <code>rp2040-pac</code>, …). Users add it as a dependency and never run svd2rust themselves.</li>
+</ol>
+<p>Chips without an SVD file need their registers written by hand with one of the other options.</p>
+<p><strong>Is it standard?</strong> svd2rust is the de facto standard in Rust, maintained by the Rust Embedded Working Group and used by most PACs. It is not a vendor standard like CMSIS: apart from Espressif, vendors do not ship Rust PACs; the community does.</p>
+<h2 id="ownership-who-may-touch-the-hardware"><a class="header" href="#ownership-who-may-touch-the-hardware">Ownership: who may touch the hardware</a></h2>
+<p>In C, registers are global: any file can reconfigure any peripheral at any time. Two drivers configuring the same pin differently is found on the bench, if at all.</p>
+<p>Rust’s <strong>ownership</strong> rules (see <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">the Rust book, ch. 4</a>) say every value has one owner, and passing it somewhere <strong>moves</strong> it: the old name can no longer be used. svd2rust PACs use this: each peripheral is a value you can get only once, and a driver takes it over:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let dp = pac::Peripherals::take().unwrap();   // PAC: succeeds only the first time
+
+let uart = Uart::new(dp.USART2, ...);         // USART2 moves into the driver
+let other = Other::new(dp.USART2, ...);       // compile error: value already moved
+<span class="boring">}</span></code></pre>
+<p>These values are <strong>zero bytes</strong> in size; the address is part of the type. The tracking happens in the compiler and costs nothing at runtime. It holds for code that goes through the PAC or HAL; raw volatile access can still write any register (<a href="#memory-safety-errors-and-unsafe">chapter 3</a>).</p>
+<h2 id="hal-crates"><a class="header" href="#hal-crates">HAL crates</a></h2>
+<p><strong>HAL</strong> (Hardware Abstraction Layer) is a general concept: a layer of driver functions (<code>gpio_set</code>, <code>uart_write</code>, …) over the raw registers. ST’s STM32Cube HAL is the usual one in C.</p>
+<p>In Rust there is no single HAL. Each chip family has its own HAL crate, built on that family’s PAC:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Chip family</th><th>HAL crate</th><th>Maintained by</th></tr>
+</thead>
+<tbody>
+<tr><td>STM32</td><td><code>stm32f4xx-hal</code> (one per series), or <code>embassy-stm32</code></td><td>Community (stm32-rs, Embassy)</td></tr>
+<tr><td>Nordic nRF</td><td><code>nrf-hal</code>, or <code>embassy-nrf</code></td><td>Community</td></tr>
+<tr><td>RP2040 / RP2350</td><td><code>rp2040-hal</code> / <code>rp235x-hal</code>, or <code>embassy-rp</code></td><td>Community</td></tr>
+<tr><td>ESP32</td><td><code>esp-hal</code></td><td>Espressif</td></tr>
+</tbody>
+</table>
+</div>
+<p>The examples below use <code>stm32f4xx-hal</code>.</p>
+<h3 id="typestate-a-pins-mode-is-part-of-its-type"><a class="header" href="#typestate-a-pins-mode-is-part-of-its-type">Typestate: a pin’s mode is part of its type</a></h3>
+<p>In C, the compiler doesn’t know a pin’s mode, so toggling (flipping high/low) a pin you never set as output still compiles:</p>
+<pre><code class="language-c">__HAL_RCC_GPIOA_CLK_ENABLE();
+GPIO_InitTypeDef init = { .Pin = GPIO_PIN_5, .Mode = GPIO_MODE_OUTPUT_PP };
+HAL_GPIO_Init(GPIOA, &amp;init);
+HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);   // compiles even without the Init lines
+</code></pre>
+<p><strong>Typestate</strong> is a pattern where an object’s state is stored in its type. In <code>stm32f4xx-hal</code>, a pin is <code>PA5&lt;Input&gt;</code> or <code>PA5&lt;Output&gt;</code> (input: the pin reads a voltage, e.g. a button; output: the pin drives a voltage, e.g. an LED), and only output pins have <code>toggle()</code>:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let pin = dp.GPIOA.split().pa5;              // PA5&lt;Input&gt;
+pin.toggle();                                // compile error
+let mut led = pin.into_push_pull_output();   // PA5&lt;Output&gt;
+led.toggle();                                // OK
+<span class="boring">}</span></code></pre>
+<p>The mistake becomes a compile error, at no runtime cost. Embassy and <code>esp-hal</code> do the same with an <code>Output</code> driver: <code>Output::new(p.PA5, ...)</code>.</p>
+<h2 id="limits"><a class="header" href="#limits">Limits</a></h2>
+<ul>
+<li>These checks come from the libraries, not the language. Raw volatile access has none of them.</li>
+<li>The PAC checks names and values, not order: forgetting a step still compiles. HAL crates catch more.</li>
+<li>HAL coverage varies by chip family.</li>
+<li>Typed APIs are verbose, and compiler errors for generic code take time to get used to.</li>
+</ul>
+<h2 id="c-vs-rust-at-a-glance"><a class="header" href="#c-vs-rust-at-a-glance">C vs Rust at a glance</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>C</th><th>Rust</th></tr>
+</thead>
+<tbody>
+<tr><td>Wrong register / field</td><td>Compiles</td><td>Compile error (PAC); compiles (raw volatile)</td></tr>
+<tr><td>Two drivers on one peripheral</td><td>Found at runtime</td><td>Compile error</td></tr>
+<tr><td>Pin used in the wrong mode</td><td>Silently nothing happens</td><td>Compile error</td></tr>
+<tr><td>Runtime cost</td><td>—</td><td>Same instructions as C</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="interrupts-and-shared-state"><a class="header" href="#interrupts-and-shared-state">Interrupts and Shared State</a></h1>
+<h2 id="the-problem"><a class="header" href="#the-problem">The problem</a></h2>
+<p>An <strong>interrupt</strong> lets a peripheral (e.g. a timer) pause the CPU: the CPU saves where it was, runs an <strong>interrupt handler</strong> function, then continues where it stopped. Saving the CPU registers is automatic (done by the hardware on Cortex-M); keeping shared variables consistent is not.</p>
+<p>A handler can run between any two instructions of <code>main</code>. When both change the same variable, updates get lost:</p>
+<pre><code class="language-c">uint32_t counter;
+void TIM2_IRQHandler(void) { counter++; }   // interrupt handler of timer 2
+int main(void) { counter++; }                // compiles to 3 instructions: load, add, store
+</code></pre>
+<pre><code class="language-text">main:    load counter   → 5
+                              ── interrupt ── handler: counter = 6
+main:    add 1          → 6
+main:    store 6               (the handler's increment is lost)
+</code></pre>
+<p>Such a <strong>race condition</strong> can fail once a week and never on the developer’s desk.</p>
+<h2 id="finding-the-handler"><a class="header" href="#finding-the-handler">Finding the handler</a></h2>
+<p>The CPU finds handlers through the <strong>vector table</strong> (a list of handler addresses at the start of flash). In C, the table comes from the vendor’s startup file, and your handler is matched by name:</p>
+<pre><code class="language-c">void TIM2_IRQHandler(void) { ... }   // replaces the default handler
+void TIM2_IRQhandler(void) { ... }   // typo: compiles, never called; the chip freezes in the default handler
+</code></pre>
+<p>In Rust, the PAC generates the vector table, and its <code>#[interrupt]</code> attribute checks the name against the chip’s list of interrupts:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[interrupt]
+fn TIM2() { ... }   // compile error if the chip has no TIM2 interrupt
+<span class="boring">}</span></code></pre>
+<h2 id="sharing-a-variable-with-a-handler"><a class="header" href="#sharing-a-variable-with-a-handler">Sharing a variable with a handler</a></h2>
+<p>In C, the fix is a <strong>critical section</strong> (interrupts turned off around the access, so nothing can run in between):</p>
+<pre><code class="language-c">__disable_irq();
+counter++;
+__enable_irq();   // wrong if interrupts were already off: this turns them back on
+</code></pre>
+<p>Nothing forces it. A shared variable looks like any other global, so a missing critical section compiles.</p>
+<p>In Rust, a global that can change is a <code>static mut</code>, and every access to it needs <code>unsafe</code>. The race can still be written, but not by accident. Safe code uses one of two tools instead:</p>
+<p><strong>Atomics</strong> (<code>core::sync::atomic</code>, part of Rust), for single numbers. The CPU does load, add and store as one step that cannot be interrupted:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>static COUNTER: AtomicU32 = AtomicU32::new(0);
+COUNTER.fetch_add(1, Ordering::Relaxed);   // no critical section needed
+<span class="boring">}</span></code></pre>
+<p>Not every chip has these instructions (Cortex-M0 has no <code>fetch_add</code>).</p>
+<p><strong>A critical-section mutex</strong> (the <code>critical-section</code> crate, used by most HAL crates), for anything bigger. The data can only be reached with a token (<code>cs</code>) that exists only while interrupts are off:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>static STATS: Mutex&lt;RefCell&lt;Stats&gt;&gt; = Mutex::new(RefCell::new(Stats::new()));
+
+critical_section::with(|cs| {             // interrupts off; previous state restored after
+    STATS.borrow_ref_mut(cs).count += 1;  // without `cs`: compile error
+});
+<span class="boring">}</span></code></pre>
+<p>A forgotten critical section becomes a compile error, at the same cost as the C version. It is verbose.</p>
+<h2 id="dma"><a class="header" href="#dma">DMA</a></h2>
+<p><strong>DMA</strong> (Direct Memory Access) is hardware that copies data between RAM and a peripheral without the CPU. While a transfer runs, the buffer belongs to the hardware, but in C nothing stops the code from changing or freeing it:</p>
+<pre><code class="language-c">void send_status(void) {
+    uint8_t buf[64];                          // local: lives on the stack
+    HAL_UART_Transmit_DMA(&amp;huart2, buf, 64);  // starts the transfer and returns
+}   // buf is gone, but the DMA keeps reading that memory. Compiles fine.
+</code></pre>
+<p>In HAL crates, starting a transfer <strong>moves</strong> the buffer in, and finishing gives it back (simplified; the exact API differs per HAL crate):</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let transfer = Transfer::start(dma_channel, uart_tx, buffer);   // buffer moves in
+buffer[0] = 1;                                                  // compile error: buffer was moved
+let (dma_channel, uart_tx, buffer) = transfer.wait();           // buffer moves back
+<span class="boring">}</span></code></pre>
+<p>The buffer must also live for the whole program (<code>'static</code>), so the stack buffer above is rejected. Embassy gets the same result with <code>async</code>: the buffer is borrowed until the transfer’s <code>.await</code> finishes.</p>
+<h2 id="c-vs-rust-at-a-glance-1"><a class="header" href="#c-vs-rust-at-a-glance-1">C vs Rust at a glance</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>C</th><th>Rust</th></tr>
+</thead>
+<tbody>
+<tr><td>Misspelled handler</td><td>Silently never called</td><td>Compile error</td></tr>
+<tr><td>Global shared with a handler</td><td>Looks like any global</td><td><code>unsafe</code> required for every access</td></tr>
+<tr><td>Safe sharing</td><td>Discipline</td><td>Atomics, or a mutex needing a critical-section token</td></tr>
+<tr><td>DMA buffer misuse</td><td>Compiles</td><td>Compile error</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="memory-safety-errors-and-unsafe"><a class="header" href="#memory-safety-errors-and-unsafe">Memory Safety, Errors and <code>unsafe</code></a></h1>
+<p>On a PC, the operating system stops a program that accesses bad memory (“segmentation fault”). On bare-metal nothing stops it: a memory bug silently corrupts another variable, and the device fails later, somewhere unrelated.</p>
+<h2 id="ram-in-short"><a class="header" href="#ram-in-short">RAM in short</a></h2>
+<p>Global variables sit at the start of RAM. The <strong>stack</strong> (local variables and function calls) starts at the end of RAM and grows down toward them. Most firmware has no <strong>heap</strong> (<code>malloc</code>), because allocation failures and fragmentation are hard to handle on a device nobody watches.</p>
+<h2 id="silent-in-c-caught-in-rust"><a class="header" href="#silent-in-c-caught-in-rust">Silent in C, caught in Rust</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Bug</th><th>C on a microcontroller</th><th>Rust</th></tr>
+</thead>
+<tbody>
+<tr><td>Index past the end of an array</td><td>Overwrites the next variable</td><td>Stops with a <strong>panic</strong> (file and line), or <code>buf.get(i)</code> returns “nothing”</td></tr>
+<tr><td>NULL pointer read</td><td>Address 0 is flash, so the read <strong>succeeds</strong> and returns code as data</td><td>No NULL: a possibly missing value has type <code>Option</code> and must be checked</td></tr>
+<tr><td>Signed integer overflow</td><td>Undefined behavior: the optimizer may delete your checks</td><td>Defined: panics in debug builds, wraps in release, or explicit (<code>checked_add</code>, <code>saturating_add</code>)</td></tr>
+<tr><td>Ignored error code</td><td>Continues with a garbage value</td><td>Functions return <code>Result</code>; you cannot get the value without handling the error</td></tr>
+<tr><td>Pointer to a local after return</td><td>Reads memory now used by other code</td><td>Compile error</td></tr>
+<tr><td>Using <code>malloc</code> in “no heap” code</td><td>Allowed, banned only by coding rules</td><td>Compile error unless an allocator is set up</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="panics"><a class="header" href="#panics">Panics</a></h2>
+<p>In C, writing past the end of an array is not detected. The write lands on whatever comes next in RAM, and the program keeps running with corrupted data:</p>
+<pre><code class="language-c">uint8_t buf[4];
+buf[i] = 1;   // i == 4: overwrites the next variable, no error
+</code></pre>
+<p>A <strong>panic</strong> is Rust’s reaction to a bug detected while the program runs. The same write checks the index first and, if it is out of range, stops the normal program and calls the <strong>panic handler</strong> instead:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut buf = [0u8; 4];
+buf[i] = 1;   // i == 4: panic "index out of bounds: the len is 4 but the index is 4", with file and line
+<span class="boring">}</span></code></pre>
+<p>Every bare-metal program must choose its panic handler. A ready-made crate is usually used, or you write your own:</p>
+<ul>
+<li><strong><code>panic-halt</code></strong>: loops forever. The device freezes in a known place, where a debugger can inspect it.</li>
+<li><strong><code>panic-reset</code></strong>: restarts the chip, like pressing its reset button. The device recovers, but loses its current state.</li>
+<li><strong><code>panic-probe</code></strong>: prints the message, file and line on the developer’s PC through the debug probe. For development.</li>
+</ul>
+<p>A custom handler is a few lines. This one restarts the chip, like <code>panic-reset</code>:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[panic_handler]
+fn panic(_info: &amp;PanicInfo) -&gt; ! {    // `!`: never returns
+    cortex_m::peripheral::SCB::sys_reset();   // restart the chip
+}
+<span class="boring">}</span></code></pre>
+<p>Production code usually avoids panics, e.g. <code>buf.get(i)</code> instead of <code>buf[i]</code>: <code>buf[i]</code> panics when out of range, while <code>buf.get(i)</code> returns an <code>Option</code> (the value, or <code>None</code>) that the caller must check.</p>
+<h2 id="what-rust-does-not-catch"><a class="header" href="#what-rust-does-not-catch">What Rust does not catch</a></h2>
+<ul>
+<li><strong>Stack overflow</strong>: same as C. A tool (<code>flip-link</code>) places the stack so an overflow causes an immediate fault instead of corruption.</li>
+<li><strong>Logic bugs</strong>: wrong formulas, wrong protocols, wrong timing.</li>
+</ul>
+<h2 id="unsafe"><a class="header" href="#unsafe"><code>unsafe</code></a></h2>
+<p>Some operations cannot be checked by the compiler, because their correctness depends on the hardware or on other code. Rust allows them only inside an <strong><code>unsafe</code></strong> block (<code>unsafe { ... }</code>), where the programmer, not the compiler, promises they are correct. On bare-metal these are mainly:</p>
+<ul>
+<li><strong>Reading or writing through a raw address</strong> (a raw pointer), e.g. a hardware register.</li>
+<li><strong>Calling a function marked <code>unsafe</code></strong>, which includes every C function.</li>
+<li><strong>Accessing a changeable global</strong> (<code>static mut</code>), e.g. one shared with an interrupt.</li>
+</ul>
+<p><code>unsafe</code> does not turn the other checks off: types, ownership and bounds checks still apply inside the block.</p>
+<p>The standard pattern: a small <code>unsafe</code> core inside a safe function.</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Pa5&lt;Output&gt; {
+    pub fn set_high(&amp;mut self) {
+        // SAFETY: 0x4002_0018 is GPIOA's BSRR register. Writing bit 5 sets only PA5,
+        // and we own the only Pa5 value.
+        unsafe { (0x4002_0018 as *mut u32).write_volatile(1 &lt;&lt; 5) };
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>Application code calls <code>led.set_high()</code>, which is safe. In a typical firmware, <code>unsafe</code> lives in libraries (the PAC, the HAL, the startup code), and application modules can forbid it entirely with <code>#![forbid(unsafe_code)]</code>.</p>
+<p>Why it matters: <strong>undefined behavior</strong> can come from any line of C, but only from <code>unsafe</code> blocks in Rust. When memory is corrupted, the search is limited to those blocks, and reviews can focus there. The honest limit: a bug inside <code>unsafe</code> code, including in a library, can still corrupt memory.</p>
+<h2 id="c-vs-rust-at-a-glance-2"><a class="header" href="#c-vs-rust-at-a-glance-2">C vs Rust at a glance</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>C</th><th>Rust</th></tr>
+</thead>
+<tbody>
+<tr><td>Memory bugs</td><td>Silent corruption</td><td>Compile errors or panics with location</td></tr>
+<tr><td>Errors</td><td>Codes, easy to ignore</td><td><code>Result</code>, must be handled</td></tr>
+<tr><td>Fatal error handling</td><td>Project-specific</td><td>Required panic handler</td></tr>
+<tr><td>Stack overflow</td><td>Silent</td><td>Silent, unless <code>flip-link</code></td></tr>
+<tr><td>Where undefined behavior can come from</td><td>Anywhere</td><td>Only <code>unsafe</code> blocks</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="should-we-switch"><a class="header" href="#should-we-switch">Should We Switch?</a></h1>
+<p>This chapter weighs the reasons for and against moving our bare-metal code from C to Rust, based on the three technical chapters.</p>
+<h2 id="reasons-for"><a class="header" href="#reasons-for">Reasons for</a></h2>
+<ol>
+<li><strong>Whole classes of bugs become compile errors.</strong> Hardware conflicts, unprotected data shared with interrupts, DMA buffer misuse, out-of-bounds access, ignored errors. In C these are found on the bench or in the field. (<a href="#hardware-access-and-peripheral-ownership">Ch. 1</a>, <a href="#interrupts-and-shared-state">2</a>, <a href="#memory-safety-errors-and-unsafe">3</a>)</li>
+<li><strong>One language for the whole company.</strong> We already use Rust on the OS side. Developers would know one language, not two.</li>
+<li><strong>No more code written twice.</strong> Shared logic becomes one <code>no_std</code> library used by both bare-metal and OS code.</li>
+<li><strong>Better daily tooling.</strong> One command to build, flash and see logs; built-in unit tests; reproducible builds.</li>
+<li><strong>Same runtime cost.</strong> No runtime and no garbage collector; most safety checks happen at compile time.</li>
+</ol>
+<h2 id="reasons-against"><a class="header" href="#reasons-against">Reasons against</a></h2>
+<ol>
+<li><strong>Learning curve.</strong> Ownership, borrowing and generics take C developers time to learn. Bare-metal Rust adds its own patterns (typestate, critical-section tokens).</li>
+<li><strong>Chip support varies.</strong> Excellent for some chip families, partial for others. Missing drivers must be written by us.</li>
+<li><strong>Libraries are mostly community-maintained</strong>, not vendor-maintained, and many are below version 1.0.</li>
+<li><strong>Fewer certified components.</strong> Qualified compilers exist (Ferrocene), but certified RTOSes and middleware are mostly C.</li>
+<li><strong>Migration cost.</strong> Existing C code is tested and working. Rewriting it costs time and carries the risk of new bugs.</li>
+<li><strong>Some things are more verbose.</strong> For example sharing data with interrupt handlers, and long type names in HAL code.</li>
+</ol>
+<h2 id="recommendation"><a class="header" href="#recommendation">Recommendation</a></h2>
+<p>Move to Rust for new bare-metal code: it turns whole classes of firmware bugs into compile errors at the same runtime cost, and lets the company work in one language.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>
